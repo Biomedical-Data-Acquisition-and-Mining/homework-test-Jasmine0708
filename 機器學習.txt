@@ -1,0 +1,160 @@
+import:匯入變數。
+
+import as:匯入變數且變數縮寫為...。
+
+from import:從...匯入資料...。
+
+小括號( )：代表tuple元組資料型別，元組是一種不可變序列。
+
+中括號[ ]：代表list列表資料型別，列表是一種可變的序列。
+
+大括號{ }：代表dict字典資料型別，字典是由鍵對值組組成。(冒號':'分開鍵和值，逗號','隔開組)。
+
+Pandas:提供兩種主要的資料結構，Series 與 DataFrame。
+Series:顧名思義就是用來處理時間序列相關的資料(如感測器資料等)，主要為建立索引的一維陣列。
+DataFrame:則是用來處理結構化(Table like)的資料，有列索引與欄標籤的二維資料集，例如關聯式資料庫、CSV 等等。
+
+data_pandas:是自己設的變數名稱
+pd.DataFrame():是將刮號內的東東轉成DataFrame的資料型態
+data:就是你的資料。
+
+type:可以取得變數的資料型態。
+
+shape:查看矩陣或者數組的維數。
+
+random_state:接受int。代表隨機種子編號，相同隨機種子編號產生相同的隨機結果。
+
+train_test_split還有一個參數是test_size:代表測試集大小。(要怎麼取指定大小的測試集，就是靠random取)
+
+
+機器學習
+
+*分類 (Classification):
+
+	from sklearn import SomeClassifier
+
+	from sklearn.linear_model import SomeClassifier
+
+	from sklearn.ensemble import SomeClassifier
+
+*迴歸 (Regression):
+
+	from sklearn import SomeRegressor
+
+	from sklearn.linear_model import SomeRegressor
+
+	from sklearn.ensemble import SomeRegressor
+
+*聚類 (Clustering):
+
+	from sklearn.cluster import SomeModel
+
+*降維 (Dimensionality Reduction):
+
+	from sklearn.decomposition import SomeModel
+
+*模型選擇 (Model Selection):
+
+	from sklearn.model_selection import SomeModel
+
+*預處理 (Preprocessing):
+
+	from sklearn.preprocessing import SomeModel
+
+
+
+
+1.載入datasets中的數據集
+(sklearn庫的datasets模組整合了部分數據分析的經典數據集，可以選用進行數據預處理、建模的操作。)
+
+2.劃分數據集：訓練集、測試集
+(在數據分析的過程中，爲了保證模型在實際系統中能夠起到預期的作用，)
+
+
+當數據總量較少的時候就不合適。
+常用的方法是留少部分做測試集，然後對其餘N個樣本採用「K折交叉驗證法」：
+將樣本打亂，並均勻分成K份，輪流選擇其中K-1份做訓練，剩餘一份做檢驗，
+計算預測誤差平方和，最後把K次的預測誤差平方和的均值作爲選擇最優模型結構的依據。
+(該函數分別將傳入的數據劃分爲訓練集和測試集。
+如果傳入的是一組數據，那麼生成的就是這一組數據隨機劃分後的訓練集和測試集，總共兩組；
+如果傳入的是兩組數據，那麼會先融合再生成的訓練集和測試集分別兩組。)
+
+breast_cancer_dataset['data']代表傳入的特徵值，相當於考卷
+breast_cancer_dataset['target']，相當於答案
+
+pd.plotting.scatter_matrix應用:
+1.frame-[pandas dataframe對象]
+2.alpha-[圖像透明度]
+3.figsize-[以英寸爲單位的圖像大小，一般以元組 (width, height) 形式設置]
+4.ax-[可選一般爲none]
+5.diagonal-[必須且只能在{‘hist’, ‘kde’}中選擇1個，’hist’表示直方圖(Histogram plot),’kde’表示核密度估計(Kernel Density Estimation)；該參數是scatter_matrix函數的關鍵參數]
+6.marker-[Matplotlib可用的標記類型，如’.’，’,’，’o’等]
+7.density_kwds-[(other plotting keyword arguments，可選)，與kde相關的字典參數,要傳遞給內核密度估計圖的關鍵字參數]
+8.hist_kwds-[與hist相關的字典參數,要傳遞給hist函數的關鍵字參數](hist_kwds是直方圖的相關參數,{'bins':20}是生成包含20個長條的直方圖;)
+9.range_padding-[(float, 可選)，圖像在x軸、y軸原點附近的留白(padding)，該值越大，留白距離越大，圖像遠離座標原點]
+10.kwds-[與scatter_matrix函數本身相關的字典參數]
+11.c-[顏色]
+12.**kwargs-[要傳遞給分散函數的關鍵字參數]
+13.cmap-[是colourmap,就是顏色板]
+
+3.k近鄰算法(將數據集做標準化)
+
+
+　1.原理: 透過鄰居(離自己最近的點)來推斷所屬的類別，比較樣本之間的特徵遠近；
+	  相似的樣本特徵之間的值應該都是相近的，如果一個樣本在特徵空間中與K個最相似(即特徵空間中最鄰近)的樣本中的大多數屬於同一個類別，則該樣本也屬於這個類別。
+
+　2.使用方法
+
+　　2.1.scikit-learn中所有的機器學習模型都在各自的類中實現,這些類被稱為Estimator類。k近鄰分類算法是在neighbors模塊的KNeighborsClassifier類中實現。
+
+	from sklearn.neighbors import KNeighborsClassifier
+	(從sklearn的neighbors類別中引用KNeighborsClassifier這個函數)
+
+　　2.2.用設定KNeighborsClassifier這個模型的參數.
+
+	knn = KNeighborsClassifier(n_neighbors=1) 
+	(定義knn分類器；n_neighbors：為int類型，選擇查詢的鄰居數)
+
+　　2.3 基於訓練集構建模型
+
+	knn.fit(x_train,y_train)
+	(將分類器與訓練資料相匹配，求得訓練集的平均值、平方差、最大值、最小值這些訓練集固有的屬性。)
+
+　　2.4 做出預測
+
+　　  	2.4.1 構建numpy數組
+
+		x_new=np.array([[28.11,39.28,188.5,2501,0.163,0.345,0.472,0.201,0.304,0.097,2.873,4.885,21.98,542.2,0.031,0.135,0.396,0.053,0.079,0.03,36.04,49.54,251.2,4254,0.223,1.058,1.252,0.291,0.664,0.208]])
+		(將列表轉換為numpy數組)
+
+		print("X_new.shape:",x_new.shape)
+		(印出x_new的陣列微度)
+
+　　  	2.4.2 調用predict函數
+ 
+		prediction=knn.predict(x_new)
+		(透過predict來對numpy數組進行預測。)
+
+		print("Prediction:",prediction)
+		(印出預測結果)
+
+		print("Predicted target name:",breast_cancer_dataset['target_names'][prediction])
+		(印出預測目標名)
+
+　　2.5 評估模型
+
+	y_pred = knn.predict(x_test)
+	(透過predict來對測試集的資料進行預測。)
+
+	print("Test set predictions:\n",y_pred)
+	(印出預測結果，當兩個數值相同時，為True，印出1；不同時，為False印出0)
+
+	print("Test set score:{:.2f}".format(np.mean(y_pred==y_test)))
+	(計算沿指定軸的算術平均值。準確率)
+
+	print("Test set score:{:.2f}".format(knn.score(x_test,y_test)))
+	(利用模型自帶的算法去得出分數。準確率)
+
+監督式學習(Supervised Learning)
+
+
